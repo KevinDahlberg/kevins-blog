@@ -19,6 +19,7 @@ import "firebase/auth";
 import Admin from "./admin";
 import Home from "./home";
 import { firebaseConfig } from "./env/firebase-config";
+import Login from "./auth/login";
 function App() {
   let history = useHistory();
   return (
@@ -33,7 +34,7 @@ function App() {
             </IfFirebaseAuthed>
             <IfFirebaseUnAuthed>
               {() => {
-                return <div>Login</div>;
+                return <Login />;
               }}
             </IfFirebaseUnAuthed>
           </Route>

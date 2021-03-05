@@ -1,20 +1,34 @@
+import {
+  IonContent,
+  IonHeader,
+  IonItem,
+  IonList,
+  IonMenu,
+  IonRouterOutlet,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
 import React from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Link, useHistory, useRouteMatch } from "react-router-dom";
 
 export default function Sidebar() {
   let { path, url } = useRouteMatch();
+  const { push } = useHistory();
   return (
-    <div className="w-64 bg-gray-400 h-full">
-      <Link to={url}>
-        <div className="p-4 hover:bg-gray-200">
-          <span>Home</span>
-        </div>
-      </Link>
-      <Link to={`${url}/posts`}>
-        <div className="p-4 hover:bg-gray-200">
-          <span>Posts</span>
-        </div>
-      </Link>
-    </div>
+    <IonMenu
+      side="start"
+      menuId="first"
+      contentId="admin-main"
+      className="max-w-xs shadow-md"
+    >
+      <IonContent color="primary">
+        <IonItem button onClick={() => push(`${url}`)} color="primary">
+          Home
+        </IonItem>
+        <IonItem button onClick={() => push(`${url}/posts`)} color="primary">
+          Posts
+        </IonItem>
+      </IonContent>
+    </IonMenu>
   );
 }

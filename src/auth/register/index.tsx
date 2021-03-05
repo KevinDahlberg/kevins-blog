@@ -1,19 +1,23 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { login } from "../services/auth.service";
+import { register } from "../services/auth.service";
 
-export default function Login() {
+export default function Register() {
   const { push } = useHistory();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const user = await login(email, password);
+    const password = formData.get("new-password") as string;
+    const confirm = formData.get("confirm-password") as string;
+    if (password !== confirm) {
+      return;
+    }
+    const user = await register(email, password);
     if (user) {
       push("/admin");
     }
-    console.log("formData", formData.get("email"), formData.get("password"));
   };
   return (
     <div className="h-screen w-full flex justify-center items-center bg-gray-200">
@@ -33,20 +37,28 @@ export default function Login() {
             <input
               className="bg-gray-200"
               type="password"
-              id="password"
-              name="password"
+              id="new-password"
+              name="new-password"
             />
           </div>
-
+          <div className="flex flex-col p-1">
+            <label>Confirm Password</label>
+            <input
+              className="bg-gray-200"
+              type="password"
+              id="confirm-password"
+              name="confirm-password"
+            />
+          </div>
           <div className="flex justify-center p-1">
             <button className="bg-blue-500 text-white py-1 px-2 m-1">
-              Log in
+              Register
             </button>
             <button
               className="bg-gray-500 text-white py-1 px-2 m-1"
-              onClick={() => push("/session/register")}
+              onClick={() => push("/session/login")}
             >
-              Register
+              Back to Login
             </button>
           </div>
         </form>

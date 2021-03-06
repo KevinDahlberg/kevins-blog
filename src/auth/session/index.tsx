@@ -1,10 +1,10 @@
-import React from "react";
-import { Route, Switch, useRouteMatch } from "react-router-dom";
-import Login from "../login";
-import Register from "../register";
+import React from 'react';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import Login from '../login';
+import Register from '../register';
 
 export default function Session() {
-  let { path, url } = useRouteMatch();
+  let { path } = useRouteMatch();
   return (
     <div>
       <Switch>

@@ -10,10 +10,10 @@ export class Post implements PostDocument<Date> {
   lastUpdatedBy: string;
   lastUpdatedOn: Date;
   archived: boolean;
-  publishedOn?: Date;
+  publishedOn: Date | null;
   title: string;
   content: string;
-  coverImage?: ImageObject;
+  coverImage: ImageObject | null;
   constructor(value: Post | PostDocument<Date> | PostDocument<firebase.firestore.Timestamp>) {
     this.assignValues(value);
   }
@@ -21,6 +21,7 @@ export class Post implements PostDocument<Date> {
   assignValues(
     value: Post | PostDocument<Date> | PostDocument<firebase.firestore.Timestamp>,
   ): void {
+    console.log('value', value);
     this.id = value.id;
     this.createdBy = value.createdBy;
     this.createdOn = handleModelTimestamp(value.createdOn);
@@ -30,14 +31,24 @@ export class Post implements PostDocument<Date> {
     this.title = value.title;
     this.content = value.content;
     if (value.coverImage) {
+      console.log('cover image exists?');
       this.coverImage = value.coverImage;
+    } else {
+      console.log('cover image does not exist');
+      this.coverImage = null;
     }
     if (value.publishedOn) {
+      console.log('published on exists?');
       this.publishedOn = handleModelTimestamp(value.publishedOn);
+    } else {
+      this.publishedOn = null;
+      console.log('publised on does not exist');
     }
+    console.log('this', this);
   }
 
   build(userId?: string): PostDocument<Date> {
+    console.log('building', this);
     return {
       ...this,
       lastUpdatedBy: userId ? userId : this.lastUpdatedBy,

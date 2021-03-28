@@ -8,8 +8,8 @@ export interface PostDocument<T> extends FirestoreBaseDocument<T> {
   lastUpdatedBy: string;
   lastUpdatedOn: T;
   archived: boolean;
-  publishedOn?: T;
+  publishedOn: T | null;
   title: string;
   content: string;
-  coverImage?: ImageObject;
+  coverImage: ImageObject | null;
 }

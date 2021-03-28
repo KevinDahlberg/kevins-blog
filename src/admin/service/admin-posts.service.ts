@@ -3,7 +3,8 @@ import { authUser } from '../../auth/services/auth.service';
 import { FirestoreDocumentBuilder, Post } from '../../shared';
 import { PostDocument } from '../../shared/models/dto/post-document';
 
-export async function createPost(postPartial: any): Promise<void> {
+export function createPost(postPartial: any): Promise<void> {
+  console.log('creating post', postPartial);
   const db = firebase.firestore();
   const docRef = db.collection('posts').doc();
   const user = authUser();
@@ -16,7 +17,8 @@ export async function createPost(postPartial: any): Promise<void> {
     ...fsDoc.build(),
     ...postPartial,
   });
-  return db.collection('posts').doc(fsDoc.id).set(post.build());
+  console.log('post object', post);
+  return db.collection('posts').doc(post.id).set(post.build());
 }
 
 export async function getPosts() {

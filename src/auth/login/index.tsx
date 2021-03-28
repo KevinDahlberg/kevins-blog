@@ -13,7 +13,6 @@ export default function Login() {
     if (user) {
       push('/admin');
     }
-    console.log('formData', formData.get('email'), formData.get('password'));
   };
   return (
     <div className="h-screen w-full flex justify-center items-center bg-gray-200">

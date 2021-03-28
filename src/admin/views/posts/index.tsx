@@ -5,12 +5,12 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 import { getPosts } from '../../service/admin-posts.service';
 
 export default function Posts() {
-  const [posts, setPosts]: [any, any] = useState();
+  const [posts = [], setPosts]: [any, any] = useState();
   let { url } = useRouteMatch();
   const { push } = useHistory();
   useEffect(() => {
     getPosts().then((posts) => setPosts(posts as any));
-  });
+  }, []);
   return (
     <div>
       <div>Posts</div>

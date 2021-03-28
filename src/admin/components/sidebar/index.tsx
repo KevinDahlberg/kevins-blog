@@ -14,6 +14,9 @@ export default function Sidebar() {
         <IonItem button onClick={() => push(`${url}/posts`)} color="primary">
           Posts
         </IonItem>
+        <IonItem button onClick={() => push(`${url}/gallery`)} color="primary">
+          Gallery
+        </IonItem>
       </IonContent>
     </IonMenu>
   );

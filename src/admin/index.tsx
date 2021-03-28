@@ -3,6 +3,7 @@ import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 
 import Sidebar from './components/sidebar';
+import { Gallery } from './views/gallery';
 import Home from './views/home';
 import Posts from './views/posts';
 import CreatePost from './views/posts/views/create-post';
@@ -29,6 +30,9 @@ export default function Admin() {
               </Route>
               <Route path={`${path}/posts`}>
                 <Posts />
+              </Route>
+              <Route path={`${path}/gallery`}>
+                <Gallery />
               </Route>
             </Switch>
           </IonPage>

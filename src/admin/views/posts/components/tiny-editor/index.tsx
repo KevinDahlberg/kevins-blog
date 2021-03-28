@@ -4,7 +4,6 @@ import { Editor } from '@tinymce/tinymce-react';
 
 export default function TinyEditor({ editorChange }: { editorChange: any }) {
   const handleEditorChange = (content: any, editor: any) => {
-    console.log('content was updated', content);
     editorChange(content);
   };
   return (

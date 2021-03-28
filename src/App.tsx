@@ -32,32 +32,31 @@ import '@ionic/react/css/display.css';
 function App() {
   return (
     <FirebaseAuthProvider {...firebaseConfig} firebase={firebase}>
-      <FirebaseAuthConsumer>
-        {({ isSignedIn, user, providerId }) => {
-          console.log('isSignedIn', isSignedIn, 'user', user);
-        }}
-      </FirebaseAuthConsumer>
       <Router>
         <Switch>
           <Route path="/admin">
             <FirebaseAuthConsumer>
               {({ isSignedIn, user, providerId }) => {
-                return (
-                  <React.Fragment>
+                if (providerId === 'password' && isSignedIn) {
+                  return (
                     <IfFirebaseAuthed>
                       {({ isSignedIn, user, providerId }) => {
-                        console.log('signedIn', isSignedIn, 'user', user);
                         return <Admin />;
                       }}
                     </IfFirebaseAuthed>
-
-                    <IfFirebaseUnAuthed>
-                      {() => {
-                        return <Redirect to="/session/login" />;
-                      }}
-                    </IfFirebaseUnAuthed>
-                  </React.Fragment>
-                );
+                  );
+                }
+                if (providerId === 'none' && !isSignedIn) {
+                  return (
+                    <React.Fragment>
+                      <IfFirebaseUnAuthed>
+                        {() => {
+                          return <Redirect to="/session/login" />;
+                        }}
+                      </IfFirebaseUnAuthed>
+                    </React.Fragment>
+                  );
+                }
               }}
             </FirebaseAuthConsumer>
           </Route>

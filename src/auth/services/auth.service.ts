@@ -20,7 +20,7 @@ export function register(
     .auth()
     .createUserWithEmailAndPassword(email, password)
     .catch((error) => {
-      console.log('unable to register', error);
+      console.error('unable to register', error);
     });
 }
 

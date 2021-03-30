@@ -25,6 +25,9 @@ export default function Admin() {
               <Route exact path={path}>
                 <Home />
               </Route>
+              <Route path={`${path}/posts/create-post/:id`}>
+                <CreatePost />
+              </Route>
               <Route path={`${path}/posts/create-post`}>
                 <CreatePost />
               </Route>

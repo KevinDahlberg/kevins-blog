@@ -4,7 +4,6 @@ import { FirestoreDocumentBuilder, Post } from '../../shared';
 import { PostDocument } from '../../shared/models/dto/post-document';
 
 export function createPost(postPartial: any): Promise<void> {
-  console.log('creating post', postPartial);
   const db = firebase.firestore();
   const docRef = db.collection('posts').doc();
   const user = authUser();
@@ -17,8 +16,21 @@ export function createPost(postPartial: any): Promise<void> {
     ...fsDoc.build(),
     ...postPartial,
   });
-  console.log('post object', post);
   return db.collection('posts').doc(post.id).set(post.build());
+}
+
+export function updatePost(post: Post): Promise<void> {
+  const db = firebase.firestore();
+  const user = authUser();
+  if (user) {
+    return db.collection('posts').doc(post.id).set(post.build(user.uid));
+  }
+  return Promise.resolve();
+}
+
+export function deletePost(post: Post): Promise<void> {
+  const db = firebase.firestore();
+  return db.collection('posts').doc(post.id).delete();
 }
 
 export async function getPosts() {
@@ -27,4 +39,19 @@ export async function getPosts() {
   return snaps.docs.map(
     (doc) => new Post(doc.data() as PostDocument<firebase.firestore.Timestamp>),
   );
+}
+
+export function getPostsQuery() {
+  const db = firebase.firestore();
+  return db.collection('posts');
+}
+
+export async function getPostById(id: string) {
+  try {
+    const db = firebase.firestore();
+    const snap = await db.collection('posts').doc(id).get();
+    return new Post(snap.data() as PostDocument<firebase.firestore.Timestamp>);
+  } catch (error) {
+    throw error;
+  }
 }

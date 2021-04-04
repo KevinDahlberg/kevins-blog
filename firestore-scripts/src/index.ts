@@ -3,6 +3,7 @@ import * as inquirer from 'inquirer';
 import * as admin from 'firebase-admin';
 import { firestoreMigration } from './modules/migrations/migrations.service';
 import { version } from '../package.json';
+import { wipeFirestore } from './modules/wipe-database/wipe-database.service';
 main();
 
 async function main() {
@@ -20,11 +21,23 @@ async function main() {
       .action(async (cmdObj: any) => {
         console.log('options', options);
 
-        const { environment } = await getEnvironment(options.project);
+        const { environment } = await getEnvironment(options.project, 'Run Migrations');
         console.log('environment', environment);
         const fbApp = await getFirebaseApp(environment, options.cert, options.warnings);
         await firestoreMigration(fbApp);
         console.log('migration finished');
+        process.exit(0);
+      });
+    program
+      .command('wipe-database')
+      .description('Wipe data from firebase')
+      .action(async (cmdObj: any) => {
+        console.log('options', options);
+        const { environment } = await getEnvironment(options.project, 'Wipe Database');
+        const fbApp = await getFirebaseApp(environment, options.cert, options.warnings);
+        await wipeFirestore(fbApp);
+        console.log('Wipe database complete');
+        process.exit(0);
       });
     program.parse();
   } catch (error) {
@@ -33,14 +46,14 @@ async function main() {
   }
 }
 
-async function getEnvironment(project: string): Promise<any> {
+async function getEnvironment(project: string, command: string): Promise<any> {
   console.log('project', project);
   if (!project) {
     const questions = [
       {
         type: 'list',
         name: 'environment',
-        message: 'What environment do you want to run the migration on?',
+        message: `What environment do you want to run the ${command} on?`,
         choices: ['kevindahlberg-blog'],
         filter: function (val: string) {
           return val.toLowerCase();

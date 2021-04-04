@@ -1,15 +1,9 @@
 import * as admin from 'firebase-admin';
 import * as inquirer from 'inquirer';
-import { removeDuplicateNotifications } from '../notifications/remove-duplicate-notifications';
 import { DatabaseMigration } from './interfaces/database-migration';
 import { addMigration, getMigrationDocs } from './migrations.queries';
 
-const databaseMigrations: DatabaseMigration[] = [
-  {
-    label: 'remove-duplicate-notifications',
-    migrationFn: removeDuplicateNotifications,
-  },
-];
+const databaseMigrations: DatabaseMigration[] = [];
 
 export async function firestoreMigration(fbApp: admin.app.App) {
   try {

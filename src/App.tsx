@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import Admin from './admin';
-import Home from './home';
+import Web from './web';
 import { firebaseConfig } from './env/firebase-config';
 import Session from './auth/session';
 
@@ -64,7 +64,7 @@ function App() {
             <Session />
           </Route>
           <Route path="/">
-            <Home />
+            <Web />
           </Route>
         </Switch>
       </Router>
